@@ -1,0 +1,56 @@
+﻿<Window x:Class="test_01.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test_01"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1200">
+    <Grid>
+
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- CSV読み込みボタン -->
+        <Button Content="過去の国勢調査を見る"
+                Command="{Binding LoadCsvCommand}"
+                Margin="40"
+                Padding="20"
+                FontSize="20"
+                Grid.Row="0"/>
+
+        <!-- ListView -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="250" Grid.Row="1">
+            <ListView ItemsSource="{Binding People}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="都道府県コード" DisplayMemberBinding="{Binding PrefectureCode}" Width="100"/>
+                        <GridViewColumn Header="都道府県名" DisplayMemberBinding="{Binding PrefectureName}" Width="150"/>
+                        <GridViewColumn Header="元号" DisplayMemberBinding="{Binding Era}" Width="100"/>
+                        <GridViewColumn Header="和暦（年）" DisplayMemberBinding="{Binding JapaneseYear}" Width="100"/>
+                        <GridViewColumn Header="西暦（年）" DisplayMemberBinding="{Binding GregorianYear}" Width="100"/>
+                        <GridViewColumn Header="注" DisplayMemberBinding="{Binding Note}" Width="150"/>
+                        <GridViewColumn Header="人口（総数）" DisplayMemberBinding="{Binding PopulationTotal}" Width="100"/>
+                        <GridViewColumn Header="人口（男）" DisplayMemberBinding="{Binding PopulationMale}" Width="100"/>
+                        <GridViewColumn Header="人口（女）" DisplayMemberBinding="{Binding PopulationFemale}" Width="100"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+
+        <!-- グラフ -->
+        <lvc:CartesianChart Margin="10" Grid.Row="2" x:Name="lvChart" Series="{Binding SeriesCollection}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="年" Labels="{Binding YearLabels}" MinValue="0" MaxValue="10"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="人口" MinValue="0" MaxValue="100000000" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+    </Grid>
+</Window>
